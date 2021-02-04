@@ -3,7 +3,7 @@ Shows how to use the FIFO Queue on the Qwiic PIR
 
 Fischer Moseley @ SparkFun Electronics
 Original Creation Date: July 29, 2019
-
+Revised by Andy England, 1/5/2021
 This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
 local, and you've found our code helpful, please buy us a round!
 
@@ -32,29 +32,29 @@ void setup(){
 }
 
 void loop(){
-    if(pir.isObjectDetectedQueueEmpty() == false) { //if the queue of pressed events is not empty
+    if(pir.isDetectedQueueEmpty() == false) { //if the queue of pressed events is not empty
         //then print the time since the last and first PIR press
         Serial.print(pir.timeSinceLastDetect()/1000.0);
-        Serial.print("s since the PIR was last pressed   ");
+        Serial.print("s since PIR detect   ");
         Serial.print(pir.timeSinceFirstDetect()/1000.0);
-        Serial.print("s since the PIR was first pressed   ");
+        Serial.print("s since PIR detect   ");
     }
 
     //if the queue of pressed events is empty, just print that the queue is empty!
-    if(pir.isObjectDetectedQueueEmpty() == true) {
-        Serial.print("PIRDetected Queue is empty! ");
+    if(pir.isDetectedQueueEmpty() == true) {
+        Serial.print("PIR Detected Queue is empty! ");
     } 
 
     if(pir.isRemovedQueueEmpty() == false) { //if the queue of clicked events is not empty
         //then print the time since the last and first PIR click
         Serial.print(pir.timeSinceLastRemove()/1000.0);
-        Serial.print("s since the PIR was last clicked   ");
+        Serial.print("s since PIR remove   ");
         Serial.print(pir.timeSinceFirstRemove()/1000.0);
-        Serial.print("s since the PIR was first clicked");
+        Serial.print("s since PIR remove   ");
     }
     //if the queue of clicked events is empty, just print that the queue is empty!
-    if(pir.isObjectDetectedQueueEmpty() == true) {
-        Serial.print("  PIRRemoved Queue is empty!");
+    if(pir.isDetectedQueueEmpty() == true) {
+        Serial.print("  PIR Removed Queue is empty!");
     }
 
     Serial.println(); //print a new line to not clutter up the serial monitor
@@ -62,12 +62,12 @@ void loop(){
     if(Serial.available()) { //if the user sent a character
         
         uint8_t data = Serial.read();
-        if(data == 'p' || data == 'P') { //if the character is p or P, then pop a value off of the pressed Queue
+        if(data == 'd' || data == 'D') { //if the character is p or P, then pop a value off of the detect Queue
             pir.popDetectedQueue();
             Serial.println("Popped DetectedQueue!");
         }
 
-        if(data == 'c' || data == 'C') { //if the character is c or C, then pop a value off of the pressed Queue
+        if(data == 'r' || data == 'R') { //if the character is c or C, then pop a value off of the removed Queue
             pir.popRemovedQueue();
             Serial.println("Popped RemovedQueue!");
         }

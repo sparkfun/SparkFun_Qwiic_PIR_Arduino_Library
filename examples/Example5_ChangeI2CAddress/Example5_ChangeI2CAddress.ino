@@ -1,6 +1,6 @@
 /******************************************************************************
-  A configurator for changing the I2C address on the Qwiic Button/Switch that walks
-  the user through finding the address of their button, and then changing it!
+  A configurator for changing the I2C address on the Qwiic PIR that walks
+  the user through finding the address of their pir, and then changing it!
 
   Fischer Moseley @ SparkFun Electronics
   Original Creation Date: July 30, 2019
@@ -10,29 +10,29 @@
 
   Hardware Connections:
   Attach the Qwiic Shield to your Arduino/Photon/ESP32 or other
-  Plug the button into the shield
+  Plug the pir into the shield
   Print it to the serial monitor at 115200 baud.
 
   Distributed as-is; no warranty is given.
 ******************************************************************************/
 
-#include <SparkFun_Qwiic_Button.h>
-QwiicButton button;
+#include <SparkFun_Qwiic_PIR.h>
+QwiicPIR pir;
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Qwiic button examples");
+  Serial.println("Qwiic PIR examples");
   Wire.begin(); //Join I2C bus
 
-  //check if button will acknowledge over I2C
-  if (button.begin() == false) {
+  //check if pir will acknowledge over I2C
+  if (pir.begin() == false) {
     Serial.println("Device did not acknowledge! Running scanner.");
   }
   else{
     Serial.println("Device acknowledged!");
   
     Serial.println();
-    Serial.println("Enter a new I2C address for the Qwiic Button/Switch to use!");
+    Serial.println("Enter a new I2C address for the Qwiic PIR to use!");
     Serial.println("Don't use the 0x prefix. For instance, if you wanted to");
     Serial.println("change the address to 0x5B, you would enter 5B and press enter.");
     Serial.println();
@@ -56,7 +56,7 @@ void setup() {
           Serial.print("Attempting to set device address to 0x");
           Serial.println(newAddress, HEX);
   
-          if (button.setI2Caddress(newAddress) == true) {
+          if (pir.setI2Caddress(newAddress) == true) {
             Serial.println("Device address set succeeded!");
           }
   
@@ -66,7 +66,7 @@ void setup() {
   
           delay(100); //give the hardware time to do whatever configuration it needs to do
   
-          if (button.isConnected()) {
+          if (pir.isConnected()) {
             Serial.println("Device will acknowledge on new I2C address!");
           }
   
@@ -89,7 +89,7 @@ void setup() {
 }
 
 void loop() {
-  //if no I2C device found or Qwiic button correctly set to new address, 
+  //if no I2C device found or Qwiic pir correctly set to new address, 
   //scan for available I2C devices
   byte error, address;
   int nDevices;

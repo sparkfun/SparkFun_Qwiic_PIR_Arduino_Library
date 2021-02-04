@@ -137,35 +137,19 @@ uint8_t QwiicPIR::setDebounceTime(uint16_t time)
 }
 
 /*------------------- Interrupt Status/Configuration ---------------- */
-uint8_t QwiicPIR::enableDetectInterrupt()
+uint8_t QwiicPIR::enableInterrupt()
 {
     interruptConfigBitField interruptConfigure;
     interruptConfigure.byteWrapped = readSingleRegister(INTERRUPT_CONFIG);
-    interruptConfigure.detectedEnable = 1;
+    interruptConfigure.interruptEnable = 1;
     return writeSingleRegisterWithReadback(INTERRUPT_CONFIG, interruptConfigure.byteWrapped);
 }
 
-uint8_t QwiicPIR::disableDetectInterrupt()
+uint8_t QwiicPIR::disableInterrupt()
 {
     interruptConfigBitField interruptConfigure;
     interruptConfigure.byteWrapped = readSingleRegister(INTERRUPT_CONFIG);
-    interruptConfigure.detectedEnable = 0;
-    return writeSingleRegisterWithReadback(INTERRUPT_CONFIG, interruptConfigure.byteWrapped);
-}
-
-uint8_t QwiicPIR::enableRemoveInterrupt()
-{
-    interruptConfigBitField interruptConfigure;
-    interruptConfigure.byteWrapped = readSingleRegister(INTERRUPT_CONFIG);
-    interruptConfigure.removedEnable = 1;
-    return writeSingleRegisterWithReadback(INTERRUPT_CONFIG, interruptConfigure.byteWrapped);
-}
-
-uint8_t QwiicPIR::disableRemoveInterrupt()
-{
-    interruptConfigBitField interruptConfigure;
-    interruptConfigure.byteWrapped = readSingleRegister(INTERRUPT_CONFIG);
-    interruptConfigure.removedEnable = 0;
+    interruptConfigure.interruptEnable = 0;
     return writeSingleRegisterWithReadback(INTERRUPT_CONFIG, interruptConfigure.byteWrapped);
 }
 
@@ -189,8 +173,7 @@ uint8_t QwiicPIR::clearEventBits()
 uint8_t QwiicPIR::resetInterruptConfig()
 {
     interruptConfigBitField interruptConfigure;
-    interruptConfigure.detectedEnable = 1;
-    interruptConfigure.removedEnable = 1;
+    interruptConfigure.interruptEnable = 1;
     return writeSingleRegisterWithReadback(INTERRUPT_CONFIG, interruptConfigure.byteWrapped);
     statusRegisterBitField buttonStatus;
     buttonStatus.eventAvailable = 0;
@@ -199,14 +182,14 @@ uint8_t QwiicPIR::resetInterruptConfig()
 
 /*------------------------- Queue Manipulation ---------------------- */
 //detected queue manipulation
-bool QwiicPIR::isObjectDetectedQueueFull()
+bool QwiicPIR::isDetectedQueueFull()
 {
     queueStatusBitField detectedQueueStatus;
     detectedQueueStatus.byteWrapped = readSingleRegister(DETECTED_QUEUE_STATUS);
     return detectedQueueStatus.isFull;
 }
 
-bool QwiicPIR::isObjectDetectedQueueEmpty()
+bool QwiicPIR::isDetectedQueueEmpty()
 {
     queueStatusBitField detectedQueueStatus;
     detectedQueueStatus.byteWrapped = readSingleRegister(DETECTED_QUEUE_STATUS);

@@ -21,8 +21,6 @@ QwiicPIR pir;
 
 #define DEBOUNCE_TIME 750
 
-#define Serial SerialUSB
-
 void setup() {
   Serial.begin(115200);
   Serial.println("Qwiic PIR examples");

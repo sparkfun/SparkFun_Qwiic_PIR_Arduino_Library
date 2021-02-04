@@ -53,9 +53,8 @@ typedef union {
 typedef union {
     struct
     {
-        bool detectedEnable : 1; //This is bit 0. user mutable, set to 1 to enable an interrupt when the button is clicked. Defaults to 0.
-        bool removedEnable : 1; //user mutable, set to 1 to enable an interrupt when the button is pressed. Defaults to 0.
-        bool : 6;
+        bool interruptEnable : 1; //This is bit 0. user mutable, set to 1 to enable an interrupt when the button is clicked
+        bool : 7;
     };
     uint8_t byteWrapped;
 } interruptConfigBitField;

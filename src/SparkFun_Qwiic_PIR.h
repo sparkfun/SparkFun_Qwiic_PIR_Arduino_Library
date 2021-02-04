@@ -54,17 +54,15 @@ public:
     uint8_t setDebounceTime(uint16_t time); //Sets the time that the button waits for the mechanical contacts to settle (in milliseconds) and checks if the register was set properly. Returns 0 on success, 1 on register I2C write fail, and 2 if the value didn't get written into the register properly.
 
     //Interrupt status/config
-    uint8_t enableDetectInterrupt();  //When called, the interrupt will be configured to trigger when the button is pressed. If enableRemoveInterrupt() has also been called, then the interrupt will trigger on either a push or a click.
-    uint8_t disableDetectInterrupt(); //When called, the interrupt will no longer be configured to trigger when the button is pressed. If enableRemoveInterrupt() has also been called, then the interrupt will still trigger on the button click.
-    uint8_t enableRemoveInterrupt();  //When called, the interrupt will be configured to trigger when the button is clicked. If enableDetectInterrupt() has also been called, then the interrupt will trigger on either a push or a click.
-    uint8_t disableRemoveInterrupt(); //When called, the interrupt will no longer be configured to trigger when the button is clicked. If enableDetectInterrupt() has also been called, then the interrupt will still trigger on the button press.
+    uint8_t enableInterrupt();  //When called, the interrupt will be configured to trigger when the button is pressed. If enableRemoveInterrupt() has also been called, then the interrupt will trigger on either a push or a click.
+    uint8_t disableInterrupt(); //When called, the interrupt will no longer be configured to trigger when the button is pressed. If enableRemoveInterrupt() has also been called, then the interrupt will still trigger on the button click.
     bool available();                  //Returns the eventAvailable bit
     uint8_t clearEventBits();          //Sets objectDetected, objectRemoved, and eventAvailable to zero
     uint8_t resetInterruptConfig();    //Resets the interrupt configuration back to defaults.
 
     //Queue manipulation
-    bool isObjectDetectedQueueFull();           //Returns true if the queue of button press timestamps is full, and false otherwise.
-    bool isObjectDetectedQueueEmpty();          //Returns true if the queue of button press timestamps is empty, and false otherwise.
+    bool isDetectedQueueFull();           //Returns true if the queue of button press timestamps is full, and false otherwise.
+    bool isDetectedQueueEmpty();          //Returns true if the queue of button press timestamps is empty, and false otherwise.
     unsigned long timeSinceLastDetect();  //Returns how many milliseconds it has been since the last button press. Since this returns a 32-bit unsigned int, it will roll over about every 50 days.
     unsigned long timeSinceFirstDetect(); //Returns how many milliseconds it has been since the first button press. Since this returns a 32-bit unsigned int, it will roll over about every 50 days.
     unsigned long popDetectedQueue();     //Returns the oldest value in the queue (milliseconds since first button press), and then removes it.
