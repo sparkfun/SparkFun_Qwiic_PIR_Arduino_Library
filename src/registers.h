@@ -2,17 +2,17 @@
 registers.h
 Fischer Moseley @ SparkFun Electronics
 Original Creation Date: July 24, 2019
+Revised by Andy England, 1/5/2021
 
-This file defines the virtual memory map on the Qwiic Button/Switch. The enum
+This file defines the virtual memory map on the Qwiic PIR. The enum
 provides a set of pointers for the various registers on the Qwiic
-Button/Switch, and the unions wrap the various bits in the bitfield in an easy
+PIR, and the unions wrap the various bits in the bitfield in an easy
 to use uint8_t format
 
 Development environment specifics:
 	IDE: Arduino 1.8.9
 	Hardware Platform: Arduino Uno/SparkFun Redboard
-	Qwiic Button Version: 1.0.0
-    Qwiic Switch Version: 1.0.0
+	Qwiic PIR Version: 1.0.0
 
 This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
 local, and you've found our code helpful, please buy us a round!
@@ -21,7 +21,7 @@ Distributed as-is; no warranty is given.
 ******************************************************************************/
 
 //Register Pointer Map
-enum Qwiic_Button_Register : uint8_t
+enum Qwiic_PIR_Register : uint8_t
 {
     ID = 0x00,
     FIRMWARE_MINOR = 0x01,
@@ -43,8 +43,8 @@ typedef union {
     {
         bool rawReading : 1; //This is the raw reading from the PIR, it is not user writable
         bool eventAvailable : 1; //This is bit 0. User mutable, gets set to 1 when a new event occurs. User is expected to write 0 to clear the flag.
-        bool objectRemoved: 1; //Defaults to zero on POR. Gets set to one when the button gets clicked. Must be cleared by the user.
-        bool objectDetected : 1;      //Gets set to one if button is pushed.
+        bool objectRemoved: 1; //Defaults to zero on POR. Gets set to one when the PIR reports an object removal. Must be cleared by the user.
+        bool objectDetected : 1;      //Gets set to one if the PIR detects an objects.
         bool : 4;
     };
     uint8_t byteWrapped;
@@ -53,7 +53,7 @@ typedef union {
 typedef union {
     struct
     {
-        bool interruptEnable : 1; //This is bit 0. user mutable, set to 1 to enable an interrupt when the button is clicked
+        bool interruptEnable : 1; //This is bit 0. user mutable, set to 1 to enable an interrupt when the PIR detects an object.
         bool : 7;
     };
     uint8_t byteWrapped;

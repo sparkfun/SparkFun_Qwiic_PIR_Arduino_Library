@@ -4,14 +4,10 @@
 
   Fischer Moseley @ SparkFun Electronics
   Original Creation Date: July 30, 2019
+  Revised by Andy England, 1/5/2021
 
   This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
   local, and you've found our code helpful, please buy us a round!
-
-  Hardware Connections:
-  Attach the Qwiic Shield to your Arduino/Photon/ESP32 or other
-  Plug the pir into the shield
-  Print it to the serial monitor at 115200 baud.
 
   Distributed as-is; no warranty is given.
 ******************************************************************************/

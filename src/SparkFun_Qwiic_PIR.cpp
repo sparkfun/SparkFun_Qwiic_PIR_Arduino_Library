@@ -1,16 +1,16 @@
 /******************************************************************************
-SparkFun_Qwiic_Button.cpp
-SparkFun Qwiic Button/Switch Library Source File
+SparkFun_Qwiic_PIR.cpp
+SparkFun Qwiic PIR Library Source File
 Fischer Moseley @ SparkFun Electronics
 Original Creation Date: July 24, 2019
+Revised by Andy England, 1/5/2021
 
-This file implements the QwiicPIR class, prototyped in SparkFun_Qwiic_Button.h
+This file implements the QwiicPIR class, prototyped in SparkFun_Qwiic_PIR.h
 
 Development environment specifics:
 	IDE: Arduino 1.8.9
 	Hardware Platform: Arduino Uno/SparkFun Redboard
-	Qwiic Button Version: 1.0.0
-    Qwiic Switch Version: 1.0.0
+	Qwiic PIR Version: 1.0.0
 
 This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
 local, and you've found our code helpful, please buy us a round!
@@ -53,7 +53,7 @@ uint8_t QwiicPIR::deviceID()
 
 bool QwiicPIR::checkDeviceID()
 {
-    // return ((deviceID() == DEV_ID_SW) || (deviceID() == DEV_ID_BTN)); //Return true if the device ID matches either the button or the switch
+    // return ((deviceID() == DEV_ID_SW) || (deviceID() == DEV_ID_BTN)); //Return true if the device ID matches the Qwiic PIR
     return (deviceID() == DEV_ID); //Return true if the device ID matches
 }
 
@@ -104,7 +104,7 @@ uint8_t QwiicPIR::getI2Caddress()
     return _deviceAddress;
 }
 
-/*------------------------------ Button Status ---------------------- */
+/*------------------------------ PIR Status ---------------------- */
 bool QwiicPIR::rawPIRReading()
 {
     statusRegisterBitField statusRegister;
@@ -155,19 +155,19 @@ uint8_t QwiicPIR::disableInterrupt()
 
 bool QwiicPIR::available()
 {
-    statusRegisterBitField buttonStatus;
-    buttonStatus.byteWrapped = readSingleRegister(EVENT_STATUS);
-    return buttonStatus.eventAvailable;
+    statusRegisterBitField sensorStatus;
+    sensorStatus.byteWrapped = readSingleRegister(EVENT_STATUS);
+    return sensorStatus.eventAvailable;
 }
 
 uint8_t QwiicPIR::clearEventBits()
 {
-    statusRegisterBitField buttonStatus;
-    buttonStatus.byteWrapped = readSingleRegister(EVENT_STATUS);
-    buttonStatus.objectDetected = 0;
-    buttonStatus.objectRemoved= 0;
-    buttonStatus.eventAvailable = 0;
-    return writeSingleRegisterWithReadback(EVENT_STATUS, buttonStatus.byteWrapped);
+    statusRegisterBitField sensorStatus;
+    sensorStatus.byteWrapped = readSingleRegister(EVENT_STATUS);
+    sensorStatus.objectDetected = 0;
+    sensorStatus.objectRemoved= 0;
+    sensorStatus.eventAvailable = 0;
+    return writeSingleRegisterWithReadback(EVENT_STATUS, sensorStatus.byteWrapped);
 }
 
 uint8_t QwiicPIR::resetInterruptConfig()
@@ -175,9 +175,9 @@ uint8_t QwiicPIR::resetInterruptConfig()
     interruptConfigBitField interruptConfigure;
     interruptConfigure.interruptEnable = 1;
     return writeSingleRegisterWithReadback(INTERRUPT_CONFIG, interruptConfigure.byteWrapped);
-    statusRegisterBitField buttonStatus;
-    buttonStatus.eventAvailable = 0;
-    return writeSingleRegisterWithReadback(EVENT_STATUS, buttonStatus.byteWrapped);
+    statusRegisterBitField sensorStatus;
+    sensorStatus.eventAvailable = 0;
+    return writeSingleRegisterWithReadback(EVENT_STATUS, sensorStatus.byteWrapped);
 }
 
 /*------------------------- Queue Manipulation ---------------------- */
@@ -255,7 +255,7 @@ unsigned long QwiicPIR::popRemovedQueue()
 
 /*------------------------- Internal I2C Abstraction ---------------- */
 
-uint8_t QwiicPIR::readSingleRegister(Qwiic_Button_Register reg)
+uint8_t QwiicPIR::readSingleRegister(Qwiic_PIR_Register reg)
 {
     _i2cPort->beginTransmission(_deviceAddress);
     _i2cPort->write(reg);
@@ -270,7 +270,7 @@ uint8_t QwiicPIR::readSingleRegister(Qwiic_Button_Register reg)
     return 0;
 }
 
-uint16_t QwiicPIR::readDoubleRegister(Qwiic_Button_Register reg)
+uint16_t QwiicPIR::readDoubleRegister(Qwiic_PIR_Register reg)
 { //little endian
     _i2cPort->beginTransmission(_deviceAddress);
     _i2cPort->write(reg);
@@ -287,7 +287,7 @@ uint16_t QwiicPIR::readDoubleRegister(Qwiic_Button_Register reg)
     return 0;
 }
 
-unsigned long QwiicPIR::readQuadRegister(Qwiic_Button_Register reg)
+unsigned long QwiicPIR::readQuadRegister(Qwiic_PIR_Register reg)
 {
     _i2cPort->beginTransmission(_deviceAddress);
     _i2cPort->write(reg);
@@ -312,7 +312,7 @@ unsigned long QwiicPIR::readQuadRegister(Qwiic_Button_Register reg)
     return data.integer;
 }
 
-bool QwiicPIR::writeSingleRegister(Qwiic_Button_Register reg, uint8_t data)
+bool QwiicPIR::writeSingleRegister(Qwiic_PIR_Register reg, uint8_t data)
 {
     _i2cPort->beginTransmission(_deviceAddress);
     _i2cPort->write(reg);
@@ -322,7 +322,7 @@ bool QwiicPIR::writeSingleRegister(Qwiic_Button_Register reg, uint8_t data)
     return false;
 }
 
-bool QwiicPIR::writeDoubleRegister(Qwiic_Button_Register reg, uint16_t data)
+bool QwiicPIR::writeDoubleRegister(Qwiic_PIR_Register reg, uint16_t data)
 {
     _i2cPort->beginTransmission(_deviceAddress);
     _i2cPort->write(reg);
@@ -333,7 +333,7 @@ bool QwiicPIR::writeDoubleRegister(Qwiic_Button_Register reg, uint16_t data)
     return false;
 }
 
-uint8_t QwiicPIR::writeSingleRegisterWithReadback(Qwiic_Button_Register reg, uint8_t data)
+uint8_t QwiicPIR::writeSingleRegisterWithReadback(Qwiic_PIR_Register reg, uint8_t data)
 {
     if (writeSingleRegister(reg, data))
         return 1;
@@ -342,7 +342,7 @@ uint8_t QwiicPIR::writeSingleRegisterWithReadback(Qwiic_Button_Register reg, uin
     return 0;
 }
 
-uint16_t QwiicPIR::writeDoubleRegisterWithReadback(Qwiic_Button_Register reg, uint16_t data)
+uint16_t QwiicPIR::writeDoubleRegisterWithReadback(Qwiic_PIR_Register reg, uint16_t data)
 {
     if (writeDoubleRegister(reg, data))
         return 1;

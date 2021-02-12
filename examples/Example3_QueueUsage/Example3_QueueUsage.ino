@@ -7,11 +7,6 @@ Revised by Andy England, 1/5/2021
 This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
 local, and you've found our code helpful, please buy us a round!
 
-Hardware Connections:
-Attach the Qwiic Shield to your Arduino/Photon/ESP32 or other
-Plug the PIR into the shield
-Print it to the serial monitor at 115200 baud.
-
 Distributed as-is; no warranty is given.
 ******************************************************************************/
 
@@ -32,27 +27,27 @@ void setup(){
 }
 
 void loop(){
-    if(pir.isDetectedQueueEmpty() == false) { //if the queue of pressed events is not empty
-        //then print the time since the last and first PIR press
+    if(pir.isDetectedQueueEmpty() == false) { //if the queue of object detected events is not empty
+        //then print the time since the last and first PIR object detection
         Serial.print(pir.timeSinceLastDetect()/1000.0);
         Serial.print("s since PIR detect   ");
         Serial.print(pir.timeSinceFirstDetect()/1000.0);
         Serial.print("s since PIR detect   ");
     }
 
-    //if the queue of pressed events is empty, just print that the queue is empty!
+    //if the queue of object detected events is empty, just print that the queue is empty!
     if(pir.isDetectedQueueEmpty() == true) {
         Serial.print("PIR Detected Queue is empty! ");
     } 
 
-    if(pir.isRemovedQueueEmpty() == false) { //if the queue of clicked events is not empty
-        //then print the time since the last and first PIR click
+    if(pir.isRemovedQueueEmpty() == false) { //if the queue of object removed events is not empty
+        //then print the time since the last and first PIR object removed
         Serial.print(pir.timeSinceLastRemove()/1000.0);
         Serial.print("s since PIR remove   ");
         Serial.print(pir.timeSinceFirstRemove()/1000.0);
         Serial.print("s since PIR remove   ");
     }
-    //if the queue of clicked events is empty, just print that the queue is empty!
+    //if the queue of object removed events is empty, just print that the queue is empty!
     if(pir.isDetectedQueueEmpty() == true) {
         Serial.print("  PIR Removed Queue is empty!");
     }
@@ -62,12 +57,12 @@ void loop(){
     if(Serial.available()) { //if the user sent a character
         
         uint8_t data = Serial.read();
-        if(data == 'd' || data == 'D') { //if the character is p or P, then pop a value off of the detect Queue
+        if(data == 'd' || data == 'D') { //if the character is d or D, then pop a value off of the detect Queue
             pir.popDetectedQueue();
             Serial.println("Popped DetectedQueue!");
         }
 
-        if(data == 'r' || data == 'R') { //if the character is c or C, then pop a value off of the removed Queue
+        if(data == 'r' || data == 'R') { //if the character is r or R, then pop a value off of the removed Queue
             pir.popRemovedQueue();
             Serial.println("Popped RemovedQueue!");
         }
