@@ -1,9 +1,9 @@
 /******************************************************************************
   Shows how to use the FIFO Queue on the Qwiic PIR
 
-  Fischer Moseley @ SparkFun Electronics
-  Original Creation Date: July 29, 2019
-  Revised by Andy England, 1/5/2021
+  Andy England @ SparkFun Electronics
+  Original Creation Date: January 5, 2021
+  
   This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
   local, and you've found our code helpful, please buy us a round!
 
@@ -59,13 +59,13 @@ void loop() {
     uint8_t data = Serial.read();
     if (data == 'd' || data == 'D') { //if the character is d or D, then pop a value off of the detect Queue
       pir.popDetectedQueue();
-      Serial.println("Popped DetectedQueue!");
+      Serial.println("Popped Detected Queue!");
       delay(3000);
     }
 
     if (data == 'r' || data == 'R') { //if the character is r or R, then pop a value off of the removed Queue
       pir.popRemovedQueue();
-      Serial.println("Popped RemovedQueue!");
+      Serial.println("Popped Removed Queue!");
       delay(3000);
     }
   }

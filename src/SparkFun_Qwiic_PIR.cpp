@@ -1,9 +1,10 @@
 /******************************************************************************
 SparkFun_Qwiic_PIR.cpp
 SparkFun Qwiic PIR Library Source File
-Fischer Moseley @ SparkFun Electronics
-Original Creation Date: July 24, 2019
-Revised by Andy England, 1/5/2021
+Andy England @ SparkFun Electronics
+Original Creation Date: January 5, 2021
+
+This library is based on the Qwiic Button Arduino Library developed by Fischer Moseley.
 
 This file implements the QwiicPIR class, prototyped in SparkFun_Qwiic_PIR.h
 

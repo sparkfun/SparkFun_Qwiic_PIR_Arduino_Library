@@ -1,9 +1,8 @@
 /******************************************************************************
   Checks whether the PIR is detecting an object
 
-  Fischer Moseley @ SparkFun Electronics
-  Original Creation Date: June 28, 2019
-  Revised by Andy England, 1/5/2021
+  Andy England @ SparkFun Electronics
+  Original Creation Date: January 5, 2021
 
   This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
   local, and you've found our code helpful, please buy us a round!
@@ -31,7 +30,12 @@ void setup() {
     Serial.println(seconds);
     delay(1000);
   }
-  
+
+  Serial.println("PIR warm!");
+
+  //Use this function call to change the debounce time of the PIR sensor
+  //The parameter is the debounce time in milliseconds
+  pir.setDebounceTime(500);
 }
 
 void loop() {

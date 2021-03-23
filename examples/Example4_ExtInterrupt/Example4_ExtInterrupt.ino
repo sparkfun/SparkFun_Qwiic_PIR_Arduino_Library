@@ -1,9 +1,9 @@
 /******************************************************************************
   Attaches a hardware interrupt to a pin to tell us when events are available to read.
+  Make sure to connect the !INT! pin on the Qwiic PIR to pin 2 of your processor board.
 
-  Fischer Moseley @ SparkFun Electronics
-  Original Creation Date: June 28, 2019
-  Revised by Andy England, 1/5/2021
+  Andy England @ SparkFun Electronics
+  Original Creation Date: January 5, 2021
 
   This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
   local, and you've found our code helpful, please buy us a round!
@@ -42,6 +42,8 @@ void setup() {
     delay(1000);
   }
 
+  Serial.println("PIR warm!");
+
   pir.enableInterrupt();  //configure the interrupt pin to go low when we detect an object with the PIR's view.
   pir.clearEventBits();  //once event bits are cleared, interrupt pin goes high
 }
@@ -51,9 +53,6 @@ void loop() {
   {
     if (pir.objectDetected()) {
       Serial.println("Object Detected");
-    }
-    if (pir.objectRemoved()) {
-      Serial.println("Object Removed");
     }
     pir.clearEventBits();
     interruptEntered = false;

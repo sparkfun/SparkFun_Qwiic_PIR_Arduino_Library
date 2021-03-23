@@ -2,9 +2,8 @@
   A configurator for changing the I2C address on the Qwiic PIR that walks
   the user through finding the address of their pir, and then changing it!
 
-  Fischer Moseley @ SparkFun Electronics
-  Original Creation Date: July 30, 2019
-  Revised by Andy England, 1/5/2021
+  Andy England @ SparkFun Electronics
+  Original Creation Date: January 5, 2021
 
   This code is Lemonadeware; if you see me (or any other SparkFun employee) at the
   local, and you've found our code helpful, please buy us a round!
@@ -21,7 +20,7 @@ void setup() {
   Wire.begin(); //Join I2C bus
 
   //check if pir will acknowledge over I2C
-  if (pir.begin() == false) {
+  if (pir.begin(0x5B) == false) {
     Serial.println("Device did not acknowledge! Running scanner.");
   }
   else{

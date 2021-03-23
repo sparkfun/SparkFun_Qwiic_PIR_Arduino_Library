@@ -1,7 +1,7 @@
 /******************************************************************************
 registers.h
-Fischer Moseley @ SparkFun Electronics
-Original Creation Date: July 24, 2019
+Andy England @ SparkFun Electronics
+Original Creation Date: January 5, 2021
 Revised by Andy England, 1/5/2021
 
 This file defines the virtual memory map on the Qwiic PIR. The enum
@@ -41,10 +41,10 @@ enum Qwiic_PIR_Register : uint8_t
 typedef union {
     struct
     {
-        bool rawReading : 1; //This is the raw reading from the PIR, it is not user writable
-        bool eventAvailable : 1; //This is bit 0. User mutable, gets set to 1 when a new event occurs. User is expected to write 0 to clear the flag.
+        bool rawReading : 1; // This is bit 0. This is the raw reading from the PIR, it is not user writable
+        bool eventAvailable : 1; //User mutable, gets set to 1 when a new event occurs. User is expected to write 0 to clear the flag.
         bool objectRemoved: 1; //Defaults to zero on POR. Gets set to one when the PIR reports an object removal. Must be cleared by the user.
-        bool objectDetected : 1;      //Gets set to one if the PIR detects an objects.
+        bool objectDetected : 1;      //Defaults to zero on POR. Gets set to one if the PIR detects an objects.
         bool : 4;
     };
     uint8_t byteWrapped;
@@ -53,7 +53,7 @@ typedef union {
 typedef union {
     struct
     {
-        bool interruptEnable : 1; //This is bit 0. user mutable, set to 1 to enable an interrupt when the PIR detects an object.
+        bool interruptEnable : 1; //This is bit 0. User mutable, set to 1 to enable an interrupt when the PIR detects an object.
         bool : 7;
     };
     uint8_t byteWrapped;

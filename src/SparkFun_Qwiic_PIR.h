@@ -1,9 +1,8 @@
 /******************************************************************************
 SparkFun_Qwiic_PIR.h
 SparkFun Qwiic PIR Library Header File
-Fischer Moseley @ SparkFun Electronics
-Original Creation Date: July 24, 2019
-Revised by Andy England, 1/5/2021
+Andy England @ SparkFun Electronics
+Original Creation Date: January 5, 2021
 https://github.com/sparkfun/
 
 This file prototypes the QwiicPIR class, implemented in SparkFun_Qwiic_PIR.cpp.
@@ -54,8 +53,8 @@ public:
     uint8_t setDebounceTime(uint16_t time); //Sets the time to wait for the PIR signal to settle (in milliseconds) and checks if the register was set properly. Returns 0 on success, 1 on register I2C write fail, and 2 if the value didn't get written into the register properly.
 
     //Interrupt status/config
-    uint8_t enableInterrupt();  //When called, the interrupt will be configured to trigger when an object is detected by the PIR. If enableRemoveInterrupt() has also been called, then the interrupt will trigger on either an object detection or removal.
-    uint8_t disableInterrupt(); //When called, the interrupt will no longer be configured to trigger when an object is detected by the PIR. If enableRemoveInterrupt() has also been called, then the interrupt will still trigger on object detection.
+    uint8_t enableInterrupt();  //When called, the interrupt will be configured to trigger when an object is detected by the PIR. 
+    uint8_t disableInterrupt(); //When called, the interrupt will no longer be configured to trigger when an object is detected by the PIR. 
     bool available();                  //Returns the eventAvailable bit
     uint8_t clearEventBits();          //Sets objectDetected, objectRemoved, and eventAvailable to zero
     uint8_t resetInterruptConfig();    //Resets the interrupt configuration back to defaults.
