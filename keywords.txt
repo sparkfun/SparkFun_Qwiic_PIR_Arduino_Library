@@ -20,6 +20,7 @@ setI2Caddress   			KEYWORD2
 getI2Caddress   			KEYWORD2
 rawPIRReading  				KEYWORD2
 objectDetected  			KEYWORD2
+objectRemoved               KEYWORD2
 getDebounceTime 			KEYWORD2
 setDebounceTime 			KEYWORD2
 enableInterrupt  	        KEYWORD2
@@ -37,3 +38,10 @@ isRemovedQueueEmpty 		KEYWORD2
 timeSinceLastRemove  		KEYWORD2
 timeSinceFirstRemove 		KEYWORD2
 popRemovedQueue 			KEYWORD2
+readSingleRegister          KEYWORD2
+readDoubleRegister          KEYWORD2
+readQuadRegister            KEYWORD2
+writeSingleRegister         KEYWORD2
+writeDoubleRegister         KEYWORD2
+writeSingleRegisterWithReadback     KEYWORD2
+writeDoubleRegisterWithReadback     KEYWORD2
